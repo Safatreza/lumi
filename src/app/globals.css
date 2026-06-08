@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+/*
+  Lumi design system — warm, friendly, high-contrast and mobile-first.
+  Built for low-end phones on slow connections: big tap targets, system-ish
+  fonts already loaded by next/font, no heavy imagery.
+*/
+@theme {
+  --color-bg: #fbfaf7;
+  --color-surface: #ffffff;
+  --color-ink: #1c1a26;
+  --color-muted: #6b6878;
+  --color-line: #ece9e3;
+
+  --color-brand: #5b54e8;
+  --color-brand-dark: #423ec0;
+  --color-brand-soft: #eeedff;
+
+  --color-accent: #ff7a59;
+  --color-accent-soft: #ffe9e1;
+
+  --color-tutor: #5b54e8;
+  --color-teacher: #0ea371;
+  --color-textbook: #e0820a;
+
+  --font-display: var(--font-geist-sans);
+}
+
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #15131c;
+    --foreground: #f3f1fb;
+  }
+  @theme {
+    --color-bg: #15131c;
+    --color-surface: #1f1c2b;
+    --color-ink: #f3f1fb;
+    --color-muted: #a6a1bd;
+    --color-line: #2e2a3d;
+    --color-brand-soft: #2a2550;
+    --color-accent-soft: #3a2419;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Render Claude's markdown nicely inside chat/output bubbles */
+.prose-lumi {
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+.prose-lumi p {
+  margin: 0.5em 0;
+}
+.prose-lumi p:first-child {
+  margin-top: 0;
+}
+.prose-lumi p:last-child {
+  margin-bottom: 0;
+}
+.prose-lumi h1,
+.prose-lumi h2,
+.prose-lumi h3 {
+  font-weight: 700;
+  margin: 0.8em 0 0.4em;
+  line-height: 1.25;
+}
+.prose-lumi h1 { font-size: 1.3em; }
+.prose-lumi h2 { font-size: 1.15em; }
+.prose-lumi h3 { font-size: 1.05em; }
+.prose-lumi ul,
+.prose-lumi ol {
+  margin: 0.5em 0;
+  padding-left: 1.4em;
+}
+.prose-lumi li { margin: 0.25em 0; }
+.prose-lumi ul { list-style: disc; }
+.prose-lumi ol { list-style: decimal; }
+.prose-lumi code {
+  background: var(--color-brand-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 0.35rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.9em;
+}
+.prose-lumi pre {
+  background: var(--color-ink);
+  color: var(--color-surface);
+  padding: 0.9em;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 0.6em 0;
+}
+.prose-lumi pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+.prose-lumi strong { font-weight: 700; }
+.prose-lumi blockquote {
+  border-left: 3px solid var(--color-brand);
+  padding-left: 0.8em;
+  color: var(--color-muted);
+  margin: 0.6em 0;
+}
+.prose-lumi table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.6em 0;
+  font-size: 0.92em;
+}
+.prose-lumi th,
+.prose-lumi td {
+  border: 1px solid var(--color-line);
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+.prose-lumi th { background: var(--color-brand-soft); }
+
+/* Blinking caret while streaming */
+@keyframes lumi-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.lumi-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: var(--color-brand);
+  border-radius: 1px;
+  animation: lumi-blink 1s step-start infinite;
+}
+
+/* Typing dots for "Lumi is thinking" */
+@keyframes lumi-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-4px); opacity: 1; }
+}
+.lumi-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-muted);
+  animation: lumi-bounce 1.2s infinite ease-in-out;
+}
