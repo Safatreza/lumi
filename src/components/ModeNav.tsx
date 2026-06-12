@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GraduationCap, Presentation, BookOpen } from "lucide-react";
+import { GraduationCap, Presentation, BookOpen, Users } from "lucide-react";
 import { MODES } from "@/lib/modes";
 import Logo from "./Logo";
 
@@ -10,6 +10,7 @@ const ICONS = {
   GraduationCap,
   Presentation,
   BookOpen,
+  Users,
 } as const;
 
 /** Sticky top navigation shared by all three mode pages. */

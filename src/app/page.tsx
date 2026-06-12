@@ -3,6 +3,7 @@ import {
   GraduationCap,
   Presentation,
   BookOpen,
+  Users,
   ArrowRight,
   Languages,
   Wifi,
@@ -13,7 +14,7 @@ import {
 import Logo from "@/components/Logo";
 import { MODES } from "@/lib/modes";
 
-const ICONS = { GraduationCap, Presentation, BookOpen } as const;
+const ICONS = { GraduationCap, Presentation, BookOpen, Users } as const;
 
 export default function Home() {
   return (
@@ -112,13 +113,13 @@ export default function Home() {
       {/* Modes */}
       <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
         <h2 className="text-center text-2xl font-extrabold tracking-tight">
-          Three ways to learn
+          Four ways to learn
         </h2>
         <p className="mx-auto mt-2 max-w-xl text-center text-muted">
-          One companion, whether you&apos;re a student, a teacher, or studying
-          from a textbook.
+          One companion — whether you&apos;re a student, a teacher, studying
+          from a textbook, or need a scribe for your official exam.
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {MODES.map((mode) => {
             const Icon = ICONS[mode.icon];
             return (

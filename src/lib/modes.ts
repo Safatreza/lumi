@@ -1,6 +1,6 @@
-/** The three product modes. One scaffold, three framings — pick whichever
+/** The product modes. One scaffold, several framings — pick whichever
  *  matches the revealed challenge track on the day. */
-export type ModeId = "tutor" | "teacher" | "textbook";
+export type ModeId = "tutor" | "teacher" | "textbook" | "scribe";
 
 export interface Mode {
   id: ModeId;
@@ -9,7 +9,7 @@ export interface Mode {
   tagline: string;
   blurb: string;
   /** lucide-react icon name */
-  icon: "GraduationCap" | "Presentation" | "BookOpen";
+  icon: "GraduationCap" | "Presentation" | "BookOpen" | "Users";
   /** CSS color var name from globals.css */
   color: string;
 }
@@ -44,6 +44,16 @@ export const MODES: Mode[] = [
       "Paste, upload, or photograph textbook pages. Lumi reads them, answers your questions from the material, and builds a quiz to test you.",
     icon: "BookOpen",
     color: "var(--color-textbook)",
+  },
+  {
+    id: "scribe",
+    name: "Scribe",
+    href: "/scribe",
+    tagline: "Exam scribes for blind & disabled students",
+    blurb:
+      "Find a verified volunteer scribe for your official exam — across all 27 EU countries and 24 languages, matched by the one-grade-below integrity rule, radius, and institute.",
+    icon: "Users",
+    color: "var(--color-scribe)",
   },
 ];
 
