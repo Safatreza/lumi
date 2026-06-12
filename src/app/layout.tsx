@@ -34,7 +34,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <div className="wl-bg" aria-hidden />
+        {children}
+      </body>
     </html>
   );
 }

@@ -32,31 +32,42 @@
   --foreground: var(--color-ink);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #15131c;
-    --foreground: #f3f1fb;
-  }
-  @theme {
-    --color-bg: #15131c;
-    --color-surface: #1f1c2b;
-    --color-ink: #f3f1fb;
-    --color-muted: #a6a1bd;
-    --color-line: #2e2a3d;
-    --color-brand-soft: #2a2550;
-    --color-accent-soft: #3a2419;
-  }
-}
+/*
+  WortLaut keeps a single warm LIGHT theme everywhere — no dark/black mode.
+  (A previous prefers-color-scheme:dark override turned the whole app near-black
+  on devices set to dark mode; it was removed on purpose.)
+*/
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: var(--color-bg);
+  background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/*
+  Universal site-wide background: a faint inclusion illustration under a warm
+  light wash, so every page shares the WortLaut identity while content cards
+  stay fully readable. Rendered by a fixed layer in the root layout
+  (.wl-bg) rather than background-attachment:fixed, which is janky on mobile.
+*/
+.wl-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  background-image: linear-gradient(
+      rgba(251, 250, 247, 0.9),
+      rgba(251, 250, 247, 0.93)
+    ),
+    url("/img/universal.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Render Claude's markdown nicely inside chat/output bubbles */

@@ -8,7 +8,7 @@ export default function AppLayout({
 }) {
   return (
     <WortLautProvider>
-      <div className="flex min-h-dvh flex-col bg-bg">
+      <div className="flex min-h-dvh flex-col">
         <ModeNav />
         <main className="flex flex-1 flex-col">{children}</main>
       </div>
