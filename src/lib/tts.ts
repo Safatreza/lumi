@@ -3,7 +3,7 @@
  * zero download. Crucial accessibility feature for low-literacy learners and
  * anyone on a device that can't run heavier models.
  */
-export function speak(text: string, langCode = "en") {
+export function speak(text: string, langCode = "en", rate = 0.98) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
   stopSpeaking();
   const utter = new SpeechSynthesisUtterance(text);
@@ -12,7 +12,7 @@ export function speak(text: string, langCode = "en") {
   const voices = window.speechSynthesis.getVoices();
   const match = voices.find((v) => v.lang.toLowerCase().startsWith(langCode));
   if (match) utter.voice = match;
-  utter.rate = 0.98;
+  utter.rate = rate;
   window.speechSynthesis.speak(utter);
 }
 

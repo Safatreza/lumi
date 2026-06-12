@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lumi — learning for everyone, in every language",
+  title: "OwnVoice — exam access for blind & differently-abled students",
   description:
-    "An AI learning companion that meets students where they are: any language, from a photo, by voice. Built to close the gap in access to quality education.",
+    "OwnVoice helps schools and universities manage verified human support and assistive technology for exams, plus an exam-safe AI assistant that reads, transcribes, and audits — without giving academic help.",
 };
 
 export const viewport: Viewport = {

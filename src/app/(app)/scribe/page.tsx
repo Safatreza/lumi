@@ -28,6 +28,7 @@ import {
   type StudentGrade,
   type SearchResult,
 } from "@/lib/scribe/data";
+import { getPolicy } from "@/lib/exam/policy";
 
 const RADII = [0, 25, 50, 100, 250, 500, 1000]; // km; 0 = EU-wide
 
@@ -106,9 +107,9 @@ export default function ScribePage() {
             <Users size={18} />
           </span>
           <div>
-            <h1 className="text-sm font-bold leading-tight">Scribe finder</h1>
+            <h1 className="text-sm font-bold leading-tight">Support Finder</h1>
             <p className="text-xs text-muted">
-              Verified exam scribes across the EU
+              Verified exam scribes & readers across the EU
             </p>
           </div>
         </div>
@@ -127,11 +128,39 @@ export default function ScribePage() {
             style={{ color: "var(--color-scribe)" }}
           />
           <p className="text-muted">
-            <strong className="text-ink">Integrity rule:</strong> a scribe must
-            study at least <strong className="text-ink">one grade below</strong>{" "}
-            the candidate — so they can write for you, never for themselves.
-            Ineligible volunteers are blocked automatically.
+            <strong className="text-ink">OwnVoice volunteer policy:</strong>{" "}
+            peer scribes must study at least{" "}
+            <strong className="text-ink">one grade below</strong> the candidate
+            — stricter than most national rules require. The final appointment
+            always rests with the exam authority.
           </p>
+        </div>
+
+        {/* Country policy */}
+        <div className="rounded-2xl border border-line bg-surface p-3 text-xs shadow-sm">
+          <p className="flex items-center gap-1.5 font-bold text-ink">
+            {flagEmoji(country)} {getCountry(country)?.name} accommodation
+            rules
+            {getPolicy(country).verified ? (
+              <span
+                className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
+                style={{ background: "var(--color-teacher)" }}
+              >
+                Verified
+              </span>
+            ) : (
+              <span className="rounded-full border border-line px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
+                CRPD default
+              </span>
+            )}
+          </p>
+          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-muted">
+            <li>Appointed by: {getPolicy(country).appointedBy}</li>
+            {getPolicy(country).rules.slice(0, 2).map((r) => (
+              <li key={r}>{r}</li>
+            ))}
+            <li>Extra time: {getPolicy(country).extraTime}</li>
+          </ul>
         </div>
 
         <div className="rounded-2xl border border-line bg-surface p-4 shadow-sm">

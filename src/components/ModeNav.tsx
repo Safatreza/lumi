@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GraduationCap, Presentation, BookOpen, Users } from "lucide-react";
+import { Mic, Users } from "lucide-react";
 import { MODES } from "@/lib/modes";
 import Logo from "./Logo";
 
 const ICONS = {
-  GraduationCap,
-  Presentation,
-  BookOpen,
+  Mic,
   Users,
 } as const;
 

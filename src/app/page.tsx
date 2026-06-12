@@ -1,20 +1,20 @@
 import Link from "next/link";
 import {
-  GraduationCap,
-  Presentation,
-  BookOpen,
+  Mic,
   Users,
   ArrowRight,
   Languages,
-  Wifi,
-  HeartHandshake,
-  Camera,
-  Mic,
+  ShieldCheck,
+  Scale,
+  Building2,
+  ScrollText,
+  Volume2,
+  BadgeCheck,
 } from "lucide-react";
 import Logo from "@/components/Logo";
 import { MODES } from "@/lib/modes";
 
-const ICONS = { GraduationCap, Presentation, BookOpen, Users } as const;
+const ICONS = { Mic, Users } as const;
 
 export default function Home() {
   return (
@@ -23,11 +23,11 @@ export default function Home() {
       <header className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
         <Logo />
         <Link
-          href="/tutor"
-          className="rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white shadow-sm transition-transform hover:scale-105"
+          href="/exam"
+          className="rounded-full px-4 py-2 text-sm font-semibold text-white shadow-sm transition-transform hover:scale-105"
           style={{ background: "var(--color-brand)" }}
         >
-          Open Lumi
+          Open exam room
         </Link>
       </header>
 
@@ -35,45 +35,50 @@ export default function Home() {
       <section className="mx-auto max-w-5xl px-4 pb-10 pt-8 sm:px-6 sm:pt-16">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-muted shadow-sm">
-            <span className="size-2 rounded-full bg-accent" style={{ background: "var(--color-accent)" }} />
-            Builders Club @ TUM · Education track
+            <span
+              className="size-2 rounded-full"
+              style={{ background: "var(--color-accent)" }}
+            />
+            UN CRPD Art. 24 · 27 EU countries · 24 languages
           </span>
           <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl">
-            Quality learning for{" "}
-            <span className="text-brand" style={{ color: "var(--color-brand)" }}>
-              every
-            </span>{" "}
-            student, in{" "}
-            <span className="text-accent" style={{ color: "var(--color-accent)" }}>
-              every
-            </span>{" "}
-            language.
+            Your exam.{" "}
+            <span style={{ color: "var(--color-brand)" }}>Your own voice.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
-            Lumi is an AI learning companion that meets students where they are —
-            in their own language, from a photo of a textbook, or just by
-            speaking. No tutor, no fancy device, no problem.
+            OwnVoice is an exam-access platform for blind and differently-abled
+            students in Europe. Readers, scribes, assistive tech, and extra time
+            are legally recognized — arranging them shouldn&apos;t be the hardest
+            part of the exam.
           </p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/tutor"
-              className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-base font-semibold text-white shadow-md transition-transform hover:scale-105"
+              href="/exam"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-semibold text-white shadow-md transition-transform hover:scale-105"
               style={{ background: "var(--color-brand)" }}
             >
-              Start learning <ArrowRight size={18} />
+              Try the AI exam room <ArrowRight size={18} />
             </Link>
             <Link
-              href="/teacher"
+              href="/scribe"
               className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-base font-semibold text-ink shadow-sm transition-colors hover:border-brand"
             >
-              I&apos;m a teacher
+              Find human support
             </Link>
           </div>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted">
-            <span className="inline-flex items-center gap-1.5"><Languages size={15} /> 16 languages</span>
-            <span className="inline-flex items-center gap-1.5"><Camera size={15} /> Photo → text</span>
-            <span className="inline-flex items-center gap-1.5"><Mic size={15} /> Voice questions</span>
-            <span className="inline-flex items-center gap-1.5"><Wifi size={15} /> Light on data</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Volume2 size={15} /> Reads & repeats verbatim
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Mic size={15} /> Dictated answers
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <ShieldCheck size={15} /> Refuses academic help
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Languages size={15} /> 24 EU languages
+            </span>
           </div>
         </div>
       </section>
@@ -83,26 +88,26 @@ export default function Home() {
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             {
-              icon: Wifi,
-              title: "Geography",
-              text: "Millions live far from a good school or a qualified teacher. Lumi works on a cheap phone and a weak connection.",
+              icon: Scale,
+              title: "Fragmented rules",
+              text: "27 countries, 27 rulebooks — Germany alone has 16. The right to accommodation is universal (CRPD Art. 24); navigating it isn't.",
             },
             {
-              icon: HeartHandshake,
-              title: "Wealth",
-              text: "Private tutors cost more than many families earn. Lumi gives every student a patient tutor for free.",
+              icon: Building2,
+              title: "Institution-dependent",
+              text: "Authorities appoint the support, families chase the paperwork, and deadlines can sit a full year before the exam (France).",
             },
             {
-              icon: Languages,
-              title: "Language",
-              text: "Most learning material is in a handful of languages. Lumi teaches in the language a student actually thinks in.",
+              icon: Users,
+              title: "Scarce human support",
+              text: "A qualified, neutral, available scribe is the system's weak point. When one doesn't show up, the student doesn't sit the exam.",
             },
           ].map(({ icon: Icon, title, text }) => (
             <div
               key={title}
               className="rounded-2xl border border-line bg-surface p-5 shadow-sm"
             >
-              <Icon className="text-brand" style={{ color: "var(--color-brand)" }} />
+              <Icon style={{ color: "var(--color-brand)" }} />
               <h3 className="mt-3 font-bold">{title}</h3>
               <p className="mt-1 text-sm text-muted">{text}</p>
             </div>
@@ -113,13 +118,14 @@ export default function Home() {
       {/* Modes */}
       <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
         <h2 className="text-center text-2xl font-extrabold tracking-tight">
-          Four ways to learn
+          One platform, both halves of exam access
         </h2>
         <p className="mx-auto mt-2 max-w-xl text-center text-muted">
-          One companion — whether you&apos;re a student, a teacher, studying
-          from a textbook, or need a scribe for your official exam.
+          Schools and universities manage verified human support — and when
+          technology is the right accommodation, the exam-safe AI assistant is
+          ready.
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
           {MODES.map((mode) => {
             const Icon = ICONS[mode.icon];
             return (
@@ -135,7 +141,10 @@ export default function Home() {
                   <Icon size={22} />
                 </span>
                 <h3 className="mt-4 text-lg font-bold">{mode.name}</h3>
-                <p className="mt-0.5 text-sm font-medium" style={{ color: mode.color }}>
+                <p
+                  className="mt-0.5 text-sm font-medium"
+                  style={{ color: mode.color }}
+                >
                   {mode.tagline}
                 </p>
                 <p className="mt-2 text-sm text-muted">{mode.blurb}</p>
@@ -148,11 +157,63 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Integrity by design */}
+      <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+        <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm sm:p-8">
+          <h2 className="text-center text-2xl font-extrabold tracking-tight">
+            An AI that knows everything — designed to act like it knows nothing
+          </h2>
+          <p className="mx-auto mt-2 max-w-2xl text-center text-muted">
+            Human scribes are kept honest by rules; OwnVoice is kept honest by
+            design, modeled on the strictest national regulations.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                icon: Volume2,
+                title: "Verbatim only",
+                text: "Reads and repeats the paper word-for-word — no commentary, no explanation. (France's secrétaire rule.)",
+              },
+              {
+                icon: Mic,
+                title: "Dictation, untouched",
+                text: "Writes exactly what the candidate says — no corrections to grammar, syntax, or word choice.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Refuses & flags",
+                text: "Any request for academic help gets a calm refusal — and a timestamped integrity flag.",
+              },
+              {
+                icon: ScrollText,
+                title: "Full audit trail",
+                text: "Every read, command, and dictation logged and exportable. (Poland already requires recorded scribe sessions.)",
+              },
+            ].map(({ icon: Icon, title, text }) => (
+              <div key={title} className="rounded-2xl border border-line bg-bg p-4">
+                <Icon size={20} style={{ color: "var(--color-brand)" }} />
+                <h3 className="mt-2 text-sm font-bold">{title}</h3>
+                <p className="mt-1 text-xs text-muted">{text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-sm text-muted">
+            <BadgeCheck size={15} style={{ color: "var(--color-teacher)" }} />
+            Per-country policy engine: verified rules for FR, DE, IE, PL, NL —
+            CRPD defaults everywhere else.
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="mx-auto max-w-5xl px-4 py-10 text-center text-sm text-muted sm:px-6">
         <p>
-          Built with Claude · open-source on-device AI (Whisper, Tesseract,
-          MiniLM, NLLB) · Lumi for the Builders Club @ TUM hackathon.
+          OwnVoice — built with Claude + open-source on-device AI (Whisper,
+          Web Speech) for the Builders Club @ TUM hackathon. Includes the{" "}
+          <Link href="/tutor" className="underline hover:text-ink">
+            Lumi learning tools
+          </Link>
+          .
         </p>
       </footer>
     </div>

@@ -1,38 +1,44 @@
-# Lumi — learning for everyone, in every language
+# OwnVoice — your exam, your own voice
 
-> Quality learning for **every** student, in **every** language.
-> Built for the **Builders Club @ TUM** hackathon (Education track).
+> Exam access for blind and differently-abled students in Europe.
+> Built for the **Claude Builder Club @ TUM** hackathon (Education track).
 
-Lumi is an AI learning companion that meets students where they are — in their
-own language, from a photo of a textbook, or just by speaking. It tackles the
-three axes of education inequality head-on:
+Across the EU, exam accommodations — readers, scribes, screen readers,
+speech-to-text, extra time, separate rooms — are **legally recognized**
+(UN CRPD Art. 24, ratified by the EU and all 27 member states). But arranging
+them is fragmented and institution-dependent: 27 countries, 27 rulebooks
+(Germany alone has 16), year-ahead deadlines, and a chronic shortage of
+qualified, neutral human scribes.
 
-- **Geography** — works on a cheap phone and a weak connection.
-- **Wealth** — a patient tutor, free, no expensive private tutoring.
-- **Language** — teaches in the language a student actually thinks in.
+**OwnVoice helps schools and universities manage verified human support and
+assistive technology — then adds an exam-safe AI assistant that reads
+questions, transcribes dictated answers, follows approved voice commands,
+supports multilingual interaction, and produces a full audit trail, without
+giving academic help.**
 
-## Three modes, one app
+## The two halves
 
 | Mode | What it does |
 | --- | --- |
-| 🎓 **Tutor** | A Socratic AI tutor. Ask by text, **voice**, or a **photo** of your homework. Replies in your language and reads answers aloud. |
-| 👩‍🏫 **Teacher** | Generate localized lesson plans, quizzes, worksheets, and flashcards for any topic, grade, and language — with culturally relevant examples. |
-| 📖 **Textbook** | Paste / upload a PDF / photograph textbook pages. Lumi reads them **on-device**, answers questions grounded in the material (RAG), and builds quizzes. |
+| 🎙️ **Exam Room** (`/exam`) | The exam-safe AI assistant: reads questions aloud (repeat / slower on command), takes **dictated answers verbatim** (Whisper, on-device), approved voice commands, multilingual (24 EU languages), countdown with extra time — and an **Integrity Guard** that refuses any request for academic help, flags it, and logs everything to an exportable audit trail. |
+| 🤝 **Support Finder** (`/scribe`) | A marketplace for verified volunteer scribes & readers across **all 27 EU countries**: radius search, institute and subject filters, language matching — governed by a **per-country policy engine** (verified rules for FR, DE, IE, PL, NL; CRPD defaults elsewhere) plus OwnVoice's one-grade-below volunteer policy. |
+
+## Integrity by design
+
+A human scribe is kept honest by rules; an AI knows more than any scribe, so it
+must be kept honest **by design** — modeled on the strictest real regulations:
+
+- **Verbatim only** — France's *secrétaire* rule: read word-for-word, no commentary.
+- **Dictation untouched** — no corrections to grammar, syntax, or word choice.
+- **Refuses & flags** — academic-help requests get a calm refusal + an integrity flag.
+- **Full audit trail** — Poland already mandates recorded scribe sessions; OwnVoice timestamps and exports every event.
 
 ## Powered by Claude + open-source on-device AI
 
-- **Claude** (`@anthropic-ai/sdk`, streaming) — the tutoring brain, content
-  generation, and grounded answers. Model: `claude-opus-4-8` (configurable).
-- **Whisper** (`@huggingface/transformers`) — voice → text, in the browser.
-- **Tesseract.js** — OCR, photo of a textbook → text, in the browser.
-- **all-MiniLM-L6-v2** (`@huggingface/transformers`) — embeddings for Textbook
-  RAG, in the browser.
-- **NLLB-200** (Meta, via HuggingFace Inference API) — 200-language translation,
-  with automatic Claude fallback.
-- **Web Speech API** — text-to-speech read-aloud (free, offline).
-
-The heavy ML models run **client-side** (or via HF's API), so the app deploys
-cleanly to Vercel's serverless platform with no GPU needed.
+- **Claude** (`@anthropic-ai/sdk`) — the integrity-guarded assistant and content generation. Model: `claude-opus-4-8` (configurable).
+- **Whisper** (`@huggingface/transformers`) — dictation, in the browser.
+- **Web Speech API** — question reading & read-back (free, offline).
+- **Tesseract.js / pdf.js / MiniLM** — power the included Lumi learning tools (`/tutor`, `/teacher`, `/textbook`).
 
 ## Tech stack
 
@@ -42,31 +48,26 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Vercel.
 
 ```bash
 npm install
-cp .env.example .env.local   # then paste your ANTHROPIC_API_KEY
+cp .env.example .env.local   # paste your ANTHROPIC_API_KEY
 npm run dev                  # http://localhost:3000
 ```
 
 Environment variables (see `.env.example`):
 
-- `ANTHROPIC_API_KEY` **(required)** — from https://console.anthropic.com/
-- `ANTHROPIC_MODEL` *(optional)* — defaults to `claude-opus-4-8`; set to
-  `claude-sonnet-4-6` for faster/cheaper demo responses.
-- `HF_TOKEN` *(optional)* — enables NLLB-200 translation; otherwise Claude
-  handles translation.
+- `ANTHROPIC_API_KEY` **(required)**
+- `ANTHROPIC_MODEL` *(optional)* — defaults to `claude-opus-4-8`; use `claude-sonnet-4-6` for snappier demo responses.
+- `HF_TOKEN` *(optional)* — NLLB-200 translation for the Lumi tools.
 
 ## Deploy
 
-Push to GitHub and import into [Vercel](https://vercel.com/new), or:
-
 ```bash
 npm i -g vercel
-vercel              # link & deploy a preview
-vercel --prod       # production
+vercel --prod
 ```
 
-Set `ANTHROPIC_API_KEY` in **Vercel → Project → Settings → Environment
-Variables**, then redeploy.
+Set `ANTHROPIC_API_KEY` in Vercel → Project → Settings → Environment Variables.
 
 ---
 
-Made with ❤️ and Claude.
+Made with ❤️, Claude, and the conviction that no student should miss an exam
+because a scribe didn't show up.
