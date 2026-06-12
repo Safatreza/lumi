@@ -1,4 +1,8 @@
-# OwnVoice — your exam, your own voice
+# WortLaut — your exam, your words, verbatim
+
+> **Wortlaut** (German): *the exact wording* — „im Wortlaut" means **verbatim**.
+> The name is the product: your voice becomes your words, word for word,
+> and never anyone else's. Built in Munich at TUM.
 
 > Exam access for blind and differently-abled students in Europe.
 > Built for the **Claude Builder Club @ TUM** hackathon (Education track).
@@ -10,7 +14,7 @@ them is fragmented and institution-dependent: 27 countries, 27 rulebooks
 (Germany alone has 16), year-ahead deadlines, and a chronic shortage of
 qualified, neutral human scribes.
 
-**OwnVoice helps schools and universities manage verified human support and
+**WortLaut helps schools and universities manage verified human support and
 assistive technology — then adds an exam-safe AI assistant that reads
 questions, transcribes dictated answers, follows approved voice commands,
 supports multilingual interaction, and produces a full audit trail, without
@@ -21,7 +25,7 @@ giving academic help.**
 | Mode | What it does |
 | --- | --- |
 | 🎙️ **Exam Room** (`/exam`) | The exam-safe AI assistant: reads questions aloud (repeat / slower on command), takes **dictated answers verbatim** (Whisper, on-device), approved voice commands, multilingual (24 EU languages), countdown with extra time — and an **Integrity Guard** that refuses any request for academic help, flags it, and logs everything to an exportable audit trail. |
-| 🤝 **Support Finder** (`/scribe`) | A marketplace for verified volunteer scribes & readers across **all 27 EU countries**: radius search, institute and subject filters, language matching — governed by a **per-country policy engine** (verified rules for FR, DE, IE, PL, NL; CRPD defaults elsewhere) plus OwnVoice's one-grade-below volunteer policy. |
+| 🤝 **Support Finder** (`/scribe`) | A marketplace for verified volunteer scribes & readers across **all 27 EU countries**: radius search, institute and subject filters, language matching — governed by a **per-country policy engine** (verified rules for FR, DE, IE, PL, NL; CRPD defaults elsewhere) plus WortLaut's one-grade-below volunteer policy. |
 
 ## Integrity by design
 
@@ -31,7 +35,7 @@ must be kept honest **by design** — modeled on the strictest real regulations:
 - **Verbatim only** — France's *secrétaire* rule: read word-for-word, no commentary.
 - **Dictation untouched** — no corrections to grammar, syntax, or word choice.
 - **Refuses & flags** — academic-help requests get a calm refusal + an integrity flag.
-- **Full audit trail** — Poland already mandates recorded scribe sessions; OwnVoice timestamps and exports every event.
+- **Full audit trail** — Poland already mandates recorded scribe sessions; WortLaut timestamps and exports every event.
 
 ## Powered by Claude + open-source on-device AI
 

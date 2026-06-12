@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OwnVoice — exam access for blind & differently-abled students",
+  title: "WortLaut — exam access for blind & differently-abled students",
   description:
-    "OwnVoice helps schools and universities manage verified human support and assistive technology for exams, plus an exam-safe AI assistant that reads, transcribes, and audits — without giving academic help.",
+    "WortLaut helps schools and universities manage verified human support and assistive technology for exams, plus an exam-safe AI assistant that reads, transcribes, and audits — without giving academic help.",
 };
 
 export const viewport: Viewport = {

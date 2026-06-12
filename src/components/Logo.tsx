@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Mic } from "lucide-react";
 
-/** OwnVoice wordmark + mic mark. */
+/** WortLaut wordmark + mic mark. */
 export default function Logo({ size = 28 }: { size?: number }) {
   return (
     <Link href="/" className="flex items-center gap-2 group">
@@ -13,7 +13,7 @@ export default function Logo({ size = 28 }: { size?: number }) {
         <Mic size={size * 0.6} strokeWidth={2.4} />
       </span>
       <span className="text-xl font-extrabold tracking-tight">
-        Own<span style={{ color: "var(--color-brand)" }}>Voice</span>
+        Wort<span style={{ color: "var(--color-brand)" }}>Laut</span>
       </span>
     </Link>
   );

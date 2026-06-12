@@ -13,7 +13,7 @@ interface Body {
 }
 
 /**
- * The OwnVoice Integrity Guard endpoint.
+ * The WortLaut Integrity Guard endpoint.
  *
  * The assistant is a conduit, never a participant: it may handle procedure,
  * navigation, verbatim re-reading, and read-back — and must refuse anything
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
   const lang = getEULanguage(language);
 
-  const system = `You are OwnVoice, an exam-integrity assistant sitting next to a blind or differently-abled candidate during an OFFICIAL EXAM. You are a conduit, never a participant. You follow the strictest EU scribe rules: verbatim only, no commentary, no academic help of any kind.
+  const system = `You are WortLaut, an exam-integrity assistant sitting next to a blind or differently-abled candidate during an OFFICIAL EXAM. You are a conduit, never a participant. You follow the strictest EU scribe rules: verbatim only, no commentary, no academic help of any kind.
 
 YOU MAY ONLY:
 - Explain exam-room procedure (how to repeat a question, navigate, dictate, ask for time).

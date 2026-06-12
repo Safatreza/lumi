@@ -267,7 +267,7 @@ export default function ExamPage() {
 
   function downloadLog() {
     const report = {
-      platform: "OwnVoice",
+      platform: "WortLaut",
       session: {
         candidate: student.name,
         accommodation: student.accommodation,
@@ -288,7 +288,7 @@ export default function ExamPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `ownvoice-audit-${student.id}-${Date.now()}.json`;
+    a.download = `wortlaut-audit-${student.id}-${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
     addLog("info", "Audit report exported.");
@@ -393,7 +393,7 @@ export default function ExamPage() {
               <li>Extra time: {policy.extraTime}</li>
               {policy.recordingRequired && (
                 <li className="font-semibold text-ink">
-                  Session recording is mandatory — OwnVoice logs every event.
+                  Session recording is mandatory — WortLaut logs every event.
                 </li>
               )}
             </ul>
@@ -594,7 +594,7 @@ export default function ExamPage() {
         {/* Ask the assistant */}
         <div className="rounded-3xl border border-line bg-surface p-5 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-            Ask OwnVoice — procedure only, never content
+            Ask WortLaut — procedure only, never content
           </p>
           <div className="mt-2 flex items-end gap-2">
             <textarea

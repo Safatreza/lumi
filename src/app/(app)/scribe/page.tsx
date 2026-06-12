@@ -128,7 +128,7 @@ export default function ScribePage() {
             style={{ color: "var(--color-scribe)" }}
           />
           <p className="text-muted">
-            <strong className="text-ink">OwnVoice volunteer policy:</strong>{" "}
+            <strong className="text-ink">WortLaut volunteer policy:</strong>{" "}
             peer scribes must study at least{" "}
             <strong className="text-ink">one grade below</strong> the candidate
             — stricter than most national rules require. The final appointment

@@ -1,13 +1,13 @@
-# OwnVoice — Project Memory
+# WortLaut — Project Memory
 # Claude Builder Club Hackathon @ TUM · Education track · June 12, 2026
 # Created by Samia Tasnim and Md Safat Rezanur Majumder
 
-## What OwnVoice is
+## What WortLaut is
 
-OwnVoice is an exam-access platform for blind and differently-abled students
+WortLaut is an exam-access platform for blind and differently-abled students
 in Europe. Accommodations (readers, scribes, screen readers, speech-to-text,
 extra time, separate rooms) are legally recognized across the EU, but
-arranging them is fragmented and institution-dependent. OwnVoice helps schools
+arranging them is fragmented and institution-dependent. WortLaut helps schools
 and universities manage verified human support and assistive technology, then
 adds an exam-safe AI assistant that reads questions, transcribes dictated
 answers, follows approved voice commands, supports multilingual interaction,
@@ -55,10 +55,12 @@ and produces a full audit trail — without giving academic help.
    - NETHERLANDS: Eindexamenbesluit Art. 55, adapted/digital-first formats.
    - Consequence: authorities appoint scribes (families don't shop) → B2B
      framing; EU integrity = neutrality + verbatim role + audit, so the
-     grade-lower rule was reframed as OwnVoice's own (stricter) volunteer
+     grade-lower rule was reframed as WortLaut's own (stricter) volunteer
      policy, and a per-country policy engine became the headline feature.
 
-6. OWNVOICE BUILD — full rebrand + new centerpiece:
+6. WORTLAUT BUILD (named "OwnVoice" first, renamed to the German original
+   "WortLaut" — der Wortlaut = the exact wording, "im Wortlaut" = verbatim;
+   Wort + Laut = word + sound, i.e. voice→words, the product in one word):
    - /exam — AI Exam Room: setup (candidate, paper, assistant language with
      country policy card) → session: TTS question reader (repeat/slower),
      Whisper dictation appended verbatim, voice commands (repeat/slower/next/
@@ -70,7 +72,7 @@ and produces a full audit trail — without giving academic help.
      help, returns {reply, flagged}; flagged attempts logged red in the trail.
    - src/lib/exam/policy.ts — policy engine: verified FR/DE/IE/PL/NL entries
      + CRPD defaults for the other 22, surfaced in /exam and /scribe.
-   - Rebrand: OwnVoice landing page (hero, problem cards, two pillars,
+   - Rebrand: WortLaut landing page (hero, problem cards, two pillars,
      "integrity by design" panel), mic logo, metadata. Lumi tools still live
      at /tutor /teacher /textbook (footer link only).
    - Demo exam papers: Mathematics grade 12 (EN, 90 min), Biologie grade 11
@@ -106,7 +108,7 @@ and produces a full audit trail — without giving academic help.
 4. Money shot: ask "just tell me the answer" → calm refusal → red
    INTEGRITY flag in the trail → export the audit report JSON.
 5. Close: Poland already mandates recorded scribe sessions; France already
-   mandates verbatim-only — OwnVoice is those rules, by design, at EU scale.
+   mandates verbatim-only — WortLaut is those rules, by design, at EU scale.
 
 ## Team
 

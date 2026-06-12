@@ -42,11 +42,11 @@ export default function Home() {
             UN CRPD Art. 24 · 27 EU countries · 24 languages
           </span>
           <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl">
-            Your exam.{" "}
-            <span style={{ color: "var(--color-brand)" }}>Your own voice.</span>
+            Your exam. Your words —{" "}
+            <span style={{ color: "var(--color-brand)" }}>im Wortlaut.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-muted">
-            OwnVoice is an exam-access platform for blind and differently-abled
+            WortLaut is an exam-access platform for blind and differently-abled
             students in Europe. Readers, scribes, assistive tech, and extra time
             are legally recognized — arranging them shouldn&apos;t be the hardest
             part of the exam.
@@ -164,7 +164,7 @@ export default function Home() {
             An AI that knows everything — designed to act like it knows nothing
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-center text-muted">
-            Human scribes are kept honest by rules; OwnVoice is kept honest by
+            Human scribes are kept honest by rules; WortLaut is kept honest by
             design, modeled on the strictest national regulations.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -208,7 +208,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="mx-auto max-w-5xl px-4 py-10 text-center text-sm text-muted sm:px-6">
         <p>
-          OwnVoice — built with Claude + open-source on-device AI (Whisper,
+          WortLaut — built with Claude + open-source on-device AI (Whisper,
           Web Speech) for the Builders Club @ TUM hackathon. Includes the{" "}
           <Link href="/tutor" className="underline hover:text-ink">
             Lumi learning tools

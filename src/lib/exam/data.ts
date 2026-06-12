@@ -1,4 +1,4 @@
-/** Demo exam papers for the OwnVoice exam room. */
+/** Demo exam papers for the WortLaut exam room. */
 
 export interface ExamQuestion {
   n: number;

@@ -1,4 +1,4 @@
-/** OwnVoice product modes. The Lumi learning tools (tutor/teacher/textbook)
+/** WortLaut product modes. The Lumi learning tools (tutor/teacher/textbook)
  *  remain available at their routes but are no longer in the primary nav. */
 export type ModeId = "exam" | "scribe" | "tutor" | "teacher" | "textbook";
 
