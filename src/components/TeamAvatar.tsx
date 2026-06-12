@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /** Circular team portrait that falls back to an initials monogram until the
  *  photo exists at /public/team/<file>. */
@@ -15,6 +15,16 @@ export default function TeamAvatar({
   position?: string;
 }) {
   const [failed, setFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // An <img> can 404 before React hydrates and attaches onError, which would
+  // leave a broken-image icon forever. Re-check the natural size on mount so the
+  // monogram fallback shows reliably (and the real photo shows once it exists).
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
+
   const initials = name
     .split(" ")
     .map((p) => p[0])
@@ -37,6 +47,7 @@ export default function TeamAvatar({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
+      ref={imgRef}
       src={src}
       alt={`Portrait of ${name}`}
       onError={() => setFailed(true)}

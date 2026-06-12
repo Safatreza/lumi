@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Mic, Users } from "lucide-react";
+import { Mic, Users, ClipboardList } from "lucide-react";
 import { MODES } from "@/lib/modes";
 import Logo from "./Logo";
 
 const ICONS = {
   Mic,
   Users,
+  ClipboardList,
 } as const;
 
 /** Sticky top navigation shared by all three mode pages. */
@@ -36,7 +37,7 @@ export default function ModeNav() {
                 aria-current={active ? "page" : undefined}
               >
                 <Icon size={16} strokeWidth={2.4} />
-                <span className="hidden sm:inline">{mode.name}</span>
+                <span className="hidden sm:inline">{mode.short}</span>
               </Link>
             );
           })}

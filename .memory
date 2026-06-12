@@ -87,14 +87,35 @@ and produces a full audit trail — without giving academic help.
    (isServer aliases → false) + outputFileTracingExcludes for all heavy ML
    node_modules. Deployment 3270c07: SUCCESS.
 
+8. THREE-MODULE REFACTOR (2026-06-12, later) — reorganised into three
+   explicit, connected modules backed by ONE shared client store
+   (src/lib/store/{types,seed,store}.tsx — React Context + localStorage,
+   provider in (app)/layout.tsx, deterministically seeded; Modules 1 & 2 make
+   ZERO API calls — only the exam room talks to Claude):
+   - MODULE 1 — Accommodation Manager (/manage), for schools: request an
+     accommodation, approve support types, assign room/time/person/tool, track
+     documentation status, generate the exam-day checklist (gates → Ready).
+   - MODULE 2 — Human Support Pool (/pool), for readers/scribes/invigilators:
+     verified people with roles, language skills, training status, availability,
+     automatic conflict checks (grade rule + training + date), booking and
+     attendance tracking. The old /scribe marketplace now redirects here.
+   - MODULE 3 — AI Exam Access Assistant (/exam): now opens an *approved &
+     ready* accommodation (not arbitrary picks), reads approved content,
+     transcribes dictation, follows commands, refuses content help, supports the
+     approved languages, and writes its audit/provenance report back to the
+     request (status → Completed).
+   - Seeded demo: Amira (ready → drives the exam), Felix (approved, assign live),
+     Mateusz (requested, Poland recording mandate — approve live).
+   - ANTHROPIC_MODEL pinned to claude-sonnet-4-6 to conserve the key.
+
 ## Current state / remaining actions
 
 - Repo: https://github.com/Safatreza/lumi (auto-deploys on push to main).
 - Deployment protection returns 401 → make production public:
   Vercel → Settings → Deployment Protection → "Only Preview Deployments".
-- ANTHROPIC_API_KEY: local key returns 401 (dead) — set a FRESH key in
-  .env.local AND Vercel env, then redeploy. Without it the Integrity Guard
-  (the demo money shot) fails.
+- ANTHROPIC_API_KEY: a FRESH, working key is now in .env.local (gitignored,
+  do not commit) and the Integrity Guard is verified live. Set the SAME key in
+  Vercel env before deploying. Model pinned to claude-sonnet-4-6 to conserve it.
 - Submission: post GitHub link + slides to the Discord thread before 17:00.
 
 ## Demo script (5 min)

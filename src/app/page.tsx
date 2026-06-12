@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   Mic,
   Users,
+  ClipboardList,
   ArrowRight,
   Languages,
   ShieldCheck,
@@ -15,7 +16,7 @@ import Logo from "@/components/Logo";
 import TeamAvatar from "@/components/TeamAvatar";
 import { MODES } from "@/lib/modes";
 
-const ICONS = { Mic, Users } as const;
+const ICONS = { Mic, Users, ClipboardList } as const;
 
 export default function Home() {
   return (
@@ -61,10 +62,10 @@ export default function Home() {
               Try the AI exam room <ArrowRight size={18} />
             </Link>
             <Link
-              href="/scribe"
+              href="/manage"
               className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-6 py-3 text-base font-semibold text-ink shadow-sm transition-colors hover:border-brand"
             >
-              Find human support
+              For schools: manage access
             </Link>
           </div>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted">
@@ -119,14 +120,14 @@ export default function Home() {
       {/* Modes */}
       <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
         <h2 className="text-center text-2xl font-extrabold tracking-tight">
-          One platform, both halves of exam access
+          One platform, three connected modules
         </h2>
         <p className="mx-auto mt-2 max-w-xl text-center text-muted">
-          Schools and universities manage verified human support — and when
-          technology is the right accommodation, the exam-safe AI assistant is
-          ready.
+          From the exam office&apos;s first request to the student&apos;s last
+          dictated word — one workflow, governed by each country&apos;s
+          accommodation rules.
         </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
           {MODES.map((mode) => {
             const Icon = ICONS[mode.icon];
             return (
@@ -224,45 +225,63 @@ export default function Home() {
             className="absolute inset-0"
             style={{ background: "rgba(13, 11, 28, 0.72)" }}
           />
-          <div className="relative px-6 py-10 text-center text-white sm:px-10">
-            <h2 className="text-2xl font-extrabold tracking-tight">
-              About us — Team WortLaut
+          <div className="relative px-6 py-12 text-center text-white sm:px-10">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90 backdrop-blur-sm">
+              The team
+            </span>
+            <h2 className="mt-4 text-3xl font-extrabold tracking-tight">
+              Team WortLaut
             </h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm text-white/85">
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/85">
               Two builders in Munich who believe an exam should measure what a
-              student knows — never whether they could see the paper or hold
-              the pen.
+              student knows — never whether they can see the paper or hold the
+              pen. We built WortLaut at the{" "}
+              <span className="font-semibold text-white">
+                Claude Builder Club @ TUM
+              </span>{" "}
+              hackathon, Education track.
             </p>
-            <div className="mx-auto mt-8 grid max-w-2xl gap-6 sm:grid-cols-2">
-              <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-                <TeamAvatar
-                  src="/team/samia.jpg"
-                  name="Samia Tasnim"
-                  position="center 30%"
-                />
-                <div>
-                  <p className="text-base font-bold">Samia Tasnim</p>
-                  <p className="mt-0.5 text-xs text-white/80">
-                    Co-creator · Vision, research & storytelling
-                  </p>
+
+            <div className="mx-auto mt-9 grid max-w-2xl gap-5 sm:grid-cols-2">
+              {[
+                {
+                  src: "/team/samia.jpg",
+                  name: "Samia Tasnim",
+                  position: "center 28%",
+                  role: "Co-creator · Research & product story",
+                  bio: "Mapped exam-accommodation law across the EU's 27 systems and shaped WortLaut's integrity-by-design narrative.",
+                },
+                {
+                  src: "/team/safat.jpg",
+                  name: "Md Safat Rezanur Majumder",
+                  position: "center 35%",
+                  role: "Co-creator · Engineering",
+                  bio: "Built the three connected modules, the shared data layer, and the integrity-guarded AI exam assistant.",
+                },
+              ].map((m) => (
+                <div
+                  key={m.name}
+                  className="flex flex-col items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur-sm transition-colors hover:bg-white/15"
+                >
+                  <TeamAvatar src={m.src} name={m.name} position={m.position} />
+                  <div>
+                    <p className="text-base font-bold">{m.name}</p>
+                    <p className="mt-0.5 text-xs font-semibold text-white/85">
+                      {m.role}
+                    </p>
+                    <p className="mt-2 text-xs leading-relaxed text-white/75">
+                      {m.bio}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
-                <TeamAvatar
-                  src="/team/safat.jpg"
-                  name="Md Safat Rezanur Majumder"
-                  position="center"
-                />
-                <div>
-                  <p className="text-base font-bold">
-                    Md Safat Rezanur Majumder
-                  </p>
-                  <p className="mt-0.5 text-xs text-white/80">
-                    Co-creator · Engineering & product
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
+
+            <p className="mx-auto mt-8 max-w-md text-xs text-white/60">
+              The painting above — books, a braille page, hearing aids and a
+              tactile shape board around a sunflower — is WortLaut in one image:
+              every learner&apos;s tools, side by side.
+            </p>
           </div>
         </div>
       </section>

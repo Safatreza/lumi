@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   Mic,
   Square,
@@ -30,6 +31,8 @@ import {
   getEULanguage,
   flagEmoji,
 } from "@/lib/scribe/data";
+import { useWortLaut, candidate } from "@/lib/store/store";
+import { supportMeta } from "@/lib/store/types";
 
 interface LogEntry {
   t: string;
@@ -56,9 +59,18 @@ function matchCommand(
 }
 
 export default function ExamPage() {
+  const { state, saveAudit } = useWortLaut();
+
+  // Only accommodations approved for the AI exam room AND marked ready/done.
+  const examReady = state.requests.filter(
+    (r) =>
+      r.approvedSupports.includes("ai_assistant") &&
+      r.assignment &&
+      (r.status === "ready" || r.status === "completed"),
+  );
+
   // Setup
-  const [studentId, setStudentId] = useState("s1");
-  const [paperId, setPaperId] = useState(PAPERS[0].id);
+  const [requestId, setRequestId] = useState<string>("");
   const [language, setLanguage] = useState("en");
   const [started, setStarted] = useState(false);
 
@@ -79,12 +91,17 @@ export default function ExamPage() {
   const recorderRef = useRef<MicRecorder | null>(null);
   const logRef = useRef<HTMLOListElement>(null);
 
-  const student = STUDENTS.find((s) => s.id === studentId) ?? STUDENTS[0];
-  const paper = getPaper(paperId);
+  const activeReq =
+    examReady.find((r) => r.id === requestId) ?? examReady[0] ?? null;
+  const student = activeReq ? candidate(activeReq.candidateId) : STUDENTS[0];
+  const paper = activeReq ? getPaper(activeReq.paperId) : PAPERS[0];
   const country = getCity(student.city).country;
   const policy = getPolicy(country);
   const question = paper.questions[qIndex];
-  const totalSeconds = Math.round(paper.durationMin * 60 * (1 + EXTRA_TIME));
+  const extraApplied = activeReq?.approvedSupports.includes("extra_time") ?? true;
+  const totalSeconds = activeReq?.assignment
+    ? activeReq.assignment.durationMin * 60
+    : Math.round(paper.durationMin * 60 * (1 + (extraApplied ? EXTRA_TIME : 0)));
   const flags = log.filter((l) => l.type === "flag").length;
 
   function addLog(type: LogEntry["type"], text: string) {
@@ -109,6 +126,15 @@ export default function ExamPage() {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight });
   }, [log]);
 
+  // Default the assistant language to the candidate's first language when the
+  // selected accommodation changes (before the session starts).
+  useEffect(() => {
+    if (!started && activeReq) {
+      setLanguage(candidate(activeReq.candidateId).languages[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeReq?.id, started]);
+
   const minutesLeft = Math.ceil(secondsLeft / 60);
   const clock = `${String(Math.floor(secondsLeft / 3600)).padStart(2, "0")}:${String(
     Math.floor((secondsLeft % 3600) / 60),
@@ -122,7 +148,7 @@ export default function ExamPage() {
     setLog([]);
     addLog(
       "info",
-      `Session started — ${student.name}, ${paper.title} (grade ${paper.grade}), ${getCountry(country)?.name} rules, +${EXTRA_TIME * 100}% extra time.`,
+      `Session started — ${student.name}, ${paper.title} (grade ${paper.grade}), ${getCountry(country)?.name} rules${activeReq?.assignment ? `, ${activeReq.assignment.room}` : ""}${extraApplied ? `, +${EXTRA_TIME * 100}% extra time` : ""}.`,
     );
     readQuestion(0, 0.98, true);
   }
@@ -266,18 +292,23 @@ export default function ExamPage() {
   }
 
   function downloadLog() {
+    const exportedAt = new Date().toISOString();
     const report = {
       platform: "WortLaut",
       session: {
+        accommodationId: activeReq?.id ?? null,
         candidate: student.name,
         accommodation: student.accommodation,
         institution: student.institution,
         paper: paper.title,
         grade: paper.grade,
         countryRules: getCountry(country)?.name,
-        extraTime: `+${EXTRA_TIME * 100}%`,
+        room: activeReq?.assignment?.room ?? null,
+        examDate: activeReq?.assignment?.date ?? null,
+        approvedSupports: activeReq?.approvedSupports.map((s) => supportMeta(s).label) ?? [],
+        extraTime: extraApplied ? `+${EXTRA_TIME * 100}%` : "none",
         integrityFlags: flags,
-        exportedAt: new Date().toISOString(),
+        exportedAt,
       },
       answers,
       auditTrail: log,
@@ -292,6 +323,16 @@ export default function ExamPage() {
     a.click();
     URL.revokeObjectURL(url);
     addLog("info", "Audit report exported.");
+    // Write the report back to the accommodation as provenance (Module 1 shows it).
+    if (activeReq) {
+      saveAudit(activeReq.id, {
+        exportedAt,
+        integrityFlags: flags,
+        events: log.length,
+        data: report,
+      });
+      addLog("info", "Audit report filed to the accommodation record.");
+    }
   }
 
   /* -------------------------------- Setup ------------------------------- */
@@ -317,100 +358,127 @@ export default function ExamPage() {
           </div>
         </div>
 
-        <div className="mt-4 rounded-3xl border border-line bg-surface p-5 shadow-sm">
-          <label htmlFor="ex-candidate" className="block text-xs font-semibold text-muted">
-            Candidate
-          </label>
-          <select
-            id="ex-candidate"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-line bg-bg px-3 py-2 text-[15px] outline-none"
-          >
-            {STUDENTS.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name} — grade {s.grade}, {s.city} ({s.accommodation})
-              </option>
-            ))}
-          </select>
-
-          <label htmlFor="ex-paper" className="mt-3 block text-xs font-semibold text-muted">
-            Exam paper
-          </label>
-          <select
-            id="ex-paper"
-            value={paperId}
-            onChange={(e) => setPaperId(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-line bg-bg px-3 py-2 text-[15px] outline-none"
-          >
-            {PAPERS.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.title} — grade {p.grade}, {p.durationMin} min (
-                {getEULanguage(p.language).label})
-              </option>
-            ))}
-          </select>
-
-          <label htmlFor="ex-lang" className="mt-3 block text-xs font-semibold text-muted">
-            Assistant language
-          </label>
-          <select
-            id="ex-lang"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-line bg-bg px-3 py-2 text-[15px] outline-none"
-          >
-            {EU_LANGUAGES.map((l) => (
-              <option key={l.code} value={l.code}>
-                {l.label} · {l.native}
-              </option>
-            ))}
-          </select>
-
-          {/* Country policy card */}
-          <div className="mt-4 rounded-2xl border border-line bg-bg p-4">
-            <p className="flex items-center gap-1.5 text-sm font-bold">
-              <ShieldCheck size={16} style={{ color: "var(--color-brand)" }} />
-              {flagEmoji(country)} {getCountry(country)?.name} exam rules
-              {policy.verified ? (
-                <span
-                  className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
-                  style={{ background: "var(--color-teacher)" }}
-                >
-                  Verified
-                </span>
-              ) : (
-                <span className="rounded-full border border-line px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
-                  CRPD default
-                </span>
-              )}
+        {examReady.length === 0 ? (
+          <div className="mt-4 rounded-3xl border border-line bg-surface p-6 text-center shadow-sm">
+            <ShieldCheck
+              className="mx-auto mb-2"
+              size={28}
+              style={{ color: "var(--color-brand)" }}
+            />
+            <p className="font-semibold">No exam-ready accommodations yet</p>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-muted">
+              The exam room only opens an accommodation that an exam office has
+              approved for the AI assistant and marked <strong>ready</strong>.
+              Set one up first.
             </p>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted">
-              <li>Appointed by: {policy.appointedBy}</li>
-              {policy.rules.slice(0, 3).map((r) => (
-                <li key={r}>{r}</li>
-              ))}
-              <li>Extra time: {policy.extraTime}</li>
-              {policy.recordingRequired && (
-                <li className="font-semibold text-ink">
-                  Session recording is mandatory — WortLaut logs every event.
-                </li>
-              )}
-            </ul>
+            <Link
+              href="/manage"
+              className="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white"
+              style={{ background: "var(--color-brand)" }}
+            >
+              Open Accommodation Manager
+            </Link>
           </div>
+        ) : (
+          <div className="mt-4 rounded-3xl border border-line bg-surface p-5 shadow-sm">
+            <label htmlFor="ex-accom" className="block text-xs font-semibold text-muted">
+              Approved accommodation
+            </label>
+            <select
+              id="ex-accom"
+              value={activeReq?.id ?? ""}
+              onChange={(e) => setRequestId(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-line bg-bg px-3 py-2 text-[15px] outline-none"
+            >
+              {examReady.map((r) => {
+                const c = candidate(r.candidateId);
+                const p = getPaper(r.paperId);
+                return (
+                  <option key={r.id} value={r.id}>
+                    {c.name} — {p.title}
+                    {r.assignment ? ` · ${r.assignment.room} · ${r.assignment.date}` : ""}
+                  </option>
+                );
+              })}
+            </select>
+            <p className="mt-1.5 text-xs text-muted">
+              Approved for this candidate in the{" "}
+              <Link href="/manage" className="underline hover:text-ink">
+                Accommodation Manager
+              </Link>
+              {activeReq && (
+                <>
+                  {" "}
+                  ·{" "}
+                  {activeReq.approvedSupports
+                    .map((s) => supportMeta(s).label)
+                    .join(", ")}
+                </>
+              )}
+              .
+            </p>
 
-          <button
-            onClick={begin}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold text-white shadow-md transition-transform hover:scale-[1.01]"
-            style={{ background: "var(--color-brand)" }}
-          >
-            <Play size={18} /> Start exam session
-          </button>
-          <p className="mt-2 text-center text-xs text-muted">
-            Every event is logged to a tamper-evident audit trail your exam
-            office can review.
-          </p>
-        </div>
+            <label htmlFor="ex-lang" className="mt-3 block text-xs font-semibold text-muted">
+              Assistant language
+            </label>
+            <select
+              id="ex-lang"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="mt-1 w-full rounded-xl border border-line bg-bg px-3 py-2 text-[15px] outline-none"
+            >
+              {EU_LANGUAGES.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.label} · {l.native}
+                </option>
+              ))}
+            </select>
+
+            {/* Country policy card */}
+            <div className="mt-4 rounded-2xl border border-line bg-bg p-4">
+              <p className="flex items-center gap-1.5 text-sm font-bold">
+                <ShieldCheck size={16} style={{ color: "var(--color-brand)" }} />
+                {flagEmoji(country)} {getCountry(country)?.name} exam rules
+                {policy.verified ? (
+                  <span
+                    className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
+                    style={{ background: "var(--color-teacher)" }}
+                  >
+                    Verified
+                  </span>
+                ) : (
+                  <span className="rounded-full border border-line px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
+                    CRPD default
+                  </span>
+                )}
+              </p>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted">
+                <li>Appointed by: {policy.appointedBy}</li>
+                {policy.rules.slice(0, 3).map((r) => (
+                  <li key={r}>{r}</li>
+                ))}
+                <li>Extra time: {policy.extraTime}</li>
+                {policy.recordingRequired && (
+                  <li className="font-semibold text-ink">
+                    Session recording is mandatory — WortLaut logs every event.
+                  </li>
+                )}
+              </ul>
+            </div>
+
+            <button
+              onClick={begin}
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold text-white shadow-md transition-transform hover:scale-[1.01]"
+              style={{ background: "var(--color-brand)" }}
+            >
+              <Play size={18} /> Start exam session
+            </button>
+            <p className="mt-2 text-center text-xs text-muted">
+              Every event is logged to a tamper-evident audit trail your exam
+              office can review.
+            </p>
+          </div>
+        )}
       </div>
     );
   }
