@@ -215,6 +215,9 @@ export default function Home() {
           </Link>
           .
         </p>
+        <p className="mt-2 font-medium">
+          Created by Samia Tasnim &amp; Md Safat Rezanur Majumder
+        </p>
       </footer>
     </div>
   );

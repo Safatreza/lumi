@@ -67,6 +67,10 @@ vercel --prod
 
 Set `ANTHROPIC_API_KEY` in Vercel → Project → Settings → Environment Variables.
 
+## Team
+
+Created by **Samia Tasnim** and **Md Safat Rezanur Majumder**.
+
 ---
 
 Made with ❤️, Claude, and the conviction that no student should miss an exam

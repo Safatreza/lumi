@@ -1,0 +1,115 @@
+# OwnVoice — Project Memory
+# Claude Builder Club Hackathon @ TUM · Education track · June 12, 2026
+# Created by Samia Tasnim and Md Safat Rezanur Majumder
+
+## What OwnVoice is
+
+OwnVoice is an exam-access platform for blind and differently-abled students
+in Europe. Accommodations (readers, scribes, screen readers, speech-to-text,
+extra time, separate rooms) are legally recognized across the EU, but
+arranging them is fragmented and institution-dependent. OwnVoice helps schools
+and universities manage verified human support and assistive technology, then
+adds an exam-safe AI assistant that reads questions, transcribes dictated
+answers, follows approved voice commands, supports multilingual interaction,
+and produces a full audit trail — without giving academic help.
+
+## How we got here (session log)
+
+1. STARTING POINT — "Lumi": a pre-built AI education app (Next.js 16 App
+   Router, React 19, Tailwind v4, Vercel) with three modes: Tutor (Socratic
+   Claude chat with voice/photo input), Teacher (lesson/quiz generation),
+   Textbook (client-side RAG over pasted/PDF/photographed material).
+   Open-source on-device ML: Whisper + MiniLM (transformers.js), Tesseract.js
+   OCR, pdf.js, Web Speech TTS.
+
+2. TRACK REVEAL — Theme: Education. Judged on impact (most important),
+   feasibility, innovation, technical depth. 5-min presentation; submission =
+   GitHub link + slides in the Discord thread by 17:00. Teams 2–4.
+
+3. IDEA — exam platform for blind/differently-abled students: find student
+   scribes (with a "scribe studies ≥1 grade lower" integrity rule), plus an AI
+   exam assistant (question reader, voice dictation answer box, integrity
+   guard, multilingual).
+
+4. SCRIBE MARKETPLACE (/scribe) — built in ~15 min: all 27 EU countries, all
+   24 official EU languages, candidate grades 10–12, haversine radius search,
+   institute + subject filters, seeded demo DB (10 candidates, 32 scribes,
+   ≥1 per member state + a Bavaria cluster around Munich). The grade rule is
+   hard-enforced; blocked scribes shown greyed with the reason (demo moment:
+   Maximilian Bauer, grade 12, 5.0★, blocked).
+
+5. EU REGULATION RESEARCH — key findings that reshaped the product:
+   - No single EU rule; education is member-state competence. Umbrella:
+     UN CRPD Art. 24 (reasonable accommodation; exams on equal terms),
+     ratified by the EU and all 27 member states.
+   - FRANCE: secrétaire scripteur/lecteur appointed by the exam authority;
+     verbatim reading, dictation without corrections; neutrality required;
+     scribe's knowledge must MATCH the exam level (opposite of grade-lower!).
+   - GERMANY: Nachteilsausgleich per Bundesland (16 systems); modified central
+     papers for blind candidates; tech + readers; assistance case-by-case.
+   - IRELAND: SEC RACE scheme; school applies; scribe writes exactly what is
+     dictated; extra time with scribe use.
+   - POLAND: supporting teacher reads/writes for blind matura candidates; no
+     explanations/suggestions; session MUST be audio-recorded (= our audit
+     trail, mandated today for humans).
+   - NETHERLANDS: Eindexamenbesluit Art. 55, adapted/digital-first formats.
+   - Consequence: authorities appoint scribes (families don't shop) → B2B
+     framing; EU integrity = neutrality + verbatim role + audit, so the
+     grade-lower rule was reframed as OwnVoice's own (stricter) volunteer
+     policy, and a per-country policy engine became the headline feature.
+
+6. OWNVOICE BUILD — full rebrand + new centerpiece:
+   - /exam — AI Exam Room: setup (candidate, paper, assistant language with
+     country policy card) → session: TTS question reader (repeat/slower),
+     Whisper dictation appended verbatim, voice commands (repeat/slower/next/
+     back/read-my-answer/time; EN+DE keywords, fallback to assistant),
+     read-back, countdown with +25% extra time, live audit trail (timestamped
+     info/dictation/command/assistant/flag entries), JSON export.
+   - /api/exam — Integrity Guard: Claude as a conduit-only assistant
+     (procedure, verbatim re-read, read-back, time). Refuses all academic
+     help, returns {reply, flagged}; flagged attempts logged red in the trail.
+   - src/lib/exam/policy.ts — policy engine: verified FR/DE/IE/PL/NL entries
+     + CRPD defaults for the other 22, surfaced in /exam and /scribe.
+   - Rebrand: OwnVoice landing page (hero, problem cards, two pillars,
+     "integrity by design" panel), mic logo, metadata. Lumi tools still live
+     at /tutor /teacher /textbook (footer link only).
+   - Demo exam papers: Mathematics grade 12 (EN, 90 min), Biologie grade 11
+     (DE, 60 min) in src/lib/exam/data.ts.
+
+7. DEPLOY SAGA — Vercel CLI token expired; GitHub auto-deploy turned out to
+   be never connected; user imported the repo (project "lumi", team
+   safatrezas-projects). First deploys FAILED at "Deploying outputs":
+   serverExternalPackages forced @huggingface/transformers + onnxruntime-node
+   (~300MB binaries) into the function output, exceeding the 250MB limit.
+   FIX (next.config.ts): stub ML packages from the server bundle
+   (isServer aliases → false) + outputFileTracingExcludes for all heavy ML
+   node_modules. Deployment 3270c07: SUCCESS.
+
+## Current state / remaining actions
+
+- Repo: https://github.com/Safatreza/lumi (auto-deploys on push to main).
+- Deployment protection returns 401 → make production public:
+  Vercel → Settings → Deployment Protection → "Only Preview Deployments".
+- ANTHROPIC_API_KEY: local key returns 401 (dead) — set a FRESH key in
+  .env.local AND Vercel env, then redeploy. Without it the Integrity Guard
+  (the demo money shot) fails.
+- Submission: post GitHub link + slides to the Discord thread before 17:00.
+
+## Demo script (5 min)
+
+1. The problem: legal right (CRPD Art. 24), fragmented reality (27 rulebooks,
+   Germany has 16, France's year-ahead deadlines, scribe scarcity).
+2. Support Finder: pick Amira (blind, grade 12, Munich) → radius search →
+   the grade rule visibly blocks a 5.0★ scribe → country policy card.
+3. Exam Room: start session → question read aloud → "repeat" → dictate an
+   answer by voice → read-back → audit trail filling up live.
+4. Money shot: ask "just tell me the answer" → calm refusal → red
+   INTEGRITY flag in the trail → export the audit report JSON.
+5. Close: Poland already mandates recorded scribe sessions; France already
+   mandates verbatim-only — OwnVoice is those rules, by design, at EU scale.
+
+## Team
+
+Created by Samia Tasnim and Md Safat Rezanur Majumder.
+Built with Claude (claude-opus-4-8) + open-source on-device AI
+(Whisper, Web Speech API, Tesseract.js, MiniLM, pdf.js).
