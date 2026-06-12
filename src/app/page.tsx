@@ -12,6 +12,7 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import Logo from "@/components/Logo";
+import TeamAvatar from "@/components/TeamAvatar";
 import { MODES } from "@/lib/modes";
 
 const ICONS = { Mic, Users } as const;
@@ -202,6 +203,67 @@ export default function Home() {
             Per-country policy engine: verified rules for FR, DE, IE, PL, NL —
             CRPD defaults everywhere else.
           </p>
+        </div>
+      </section>
+
+      {/* About us */}
+      <section
+        id="about"
+        className="mx-auto max-w-5xl px-4 py-8 sm:px-6"
+        aria-label="About the team"
+      >
+        <div className="relative overflow-hidden rounded-3xl border border-line shadow-sm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/team/about-bg.jpg"
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "rgba(13, 11, 28, 0.72)" }}
+          />
+          <div className="relative px-6 py-10 text-center text-white sm:px-10">
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              About us — Team WortLaut
+            </h2>
+            <p className="mx-auto mt-2 max-w-xl text-sm text-white/85">
+              Two builders in Munich who believe an exam should measure what a
+              student knows — never whether they could see the paper or hold
+              the pen.
+            </p>
+            <div className="mx-auto mt-8 grid max-w-2xl gap-6 sm:grid-cols-2">
+              <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
+                <TeamAvatar
+                  src="/team/samia.jpg"
+                  name="Samia Tasnim"
+                  position="center 30%"
+                />
+                <div>
+                  <p className="text-base font-bold">Samia Tasnim</p>
+                  <p className="mt-0.5 text-xs text-white/80">
+                    Co-creator · Vision, research & storytelling
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3 rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
+                <TeamAvatar
+                  src="/team/safat.jpg"
+                  name="Md Safat Rezanur Majumder"
+                  position="center"
+                />
+                <div>
+                  <p className="text-base font-bold">
+                    Md Safat Rezanur Majumder
+                  </p>
+                  <p className="mt-0.5 text-xs text-white/80">
+                    Co-creator · Engineering & product
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
